@@ -1,0 +1,125 @@
+---
+title: "R Data Types and Functions Demo"
+author: "Scott Schwartz"
+date: "Week 2 Demo"
+output:
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval=TRUE, include=TRUE, echo=TRUE)
+```
+
+The purpose of this demo is to introduce R data types and functions:
+
+1. [ ] ***Variables*** like `my_vec_var` and ***assignments*** with `<-` (and `->` and `=`)
+2. [ ] ***Vectors*** and the `c()` ***concatenate/combine*** function: `c(1,"2")`
+3. [ ] ***Data types*** (`1`,`1.1`, `TRUE`, `"1"`) and `class()` and `typeof()` functions
+<!-- https://stackoverflow.com/questions/62413619/what-is-the-difference-between-typeof-and-class-functions-and-when-are-they -->
+4. [ ] ***Coercion*** and `as.numeric()`, `as.logical()`, `character()` functions
+5. [ ] ***Ordinal*** with `as.integer()` versus ***nominal*** with `as.factor()`
+6. [ ] ***Tibbles*** `read_csv()` versus ***Data Frames*** `read.csv()`
+7. [ ] **Columns** are **variables**  (but not "R variables"!): specific things to be observed and recorded 
+8. [ ] **Rows** are **observational units** (on which variables are observed and recorded)
+9. [ ] A **Row** is the **observation** 
+       
+       - The value of a specific variable for a specific row is one piece of the  
+         collection of information on an entire row which comprise an **observation** 
+       
+10. [ ] Beyond `glimpse()` and `head()` with `names()`, `[]`, `[[]]`, and `$` "functions"
+11. [ ] The `mean`, `median`, [`mode`](https://stackoverflow.com/questions/2547402/how-to-find-the-statistical-mode), `range`, `IQR`, `var`, and `sd` functions (and `%>%`)
+12. [] ***Boolean Vector Mask*** selection
+
+
+```{r}
+```
+
+
+```{r}
+library(tidyverse)
+coffee_ratings <- read_csv("coffee_ratings.csv")
+```
+
+# Extra Material 
+
+## Topic 1: ***ggplot2 syntax review***
+
+### (a) What are the first two lines of this code doing?
+
+```{r, eval=TRUE, message=TRUE}
+library(tidyverse)
+coffee_ratings <- read_csv("coffee_ratings.csv")
+coffee_ratings %>%
+  ggplot(aes(x=total_cup_points)) +
+  geom_histogram(bins=30, color="black", fill="light blue")
+```
+
+### (b) Can you read the finel three lines of the code above? What do you roughly think it's doing?
+
+### (c) What parts of the code are parameters and what are parts are arguments?
+
+### (d) What does the `%>%` seem to be doing in the code above?
+
+### (e) What does the `+` seem to be doing in the code above?
+
+
+## Topic 2: a little more about ***tibbles*** and ***types***
+
+### (a) Without variable assignments, use the `%>%` "pipe" command to find the `class()` of `tibble::tibble(col=c(1,2,3))`
+
+```{r, eval=FALSE, echo=FALSE, include=TRUE}
+tibble(col=c(1,2,3)) %>% class()
+```
+
+### (b) Without variable assignments, use the `%>%` "pipe" command to find out the `class()` of `read_csv()` and `read.csv()`.
+
+```{r, eval=FALSE, echo=FALSE, include=TRUE, message=FALSE}
+read_csv("coffee_ratings.csv") %>% class() # read.csv("coffee_ratings.csv") %>% class()
+```
+
+
+## Topic 3: a little more about ***factors***
+
+### (a) Confirm the observed column data types using the following stackoverflow conversation.
+
+- https://stackoverflow.com/questions/21125222/determine-the-data-types-of-a-data-frames-columns
+
+```{r, eval=FALSE, echo=FALSE, include=TRUE, message=FALSE}
+sapply(coffee_ratings, class)
+```
+
+### (b) Change column data types in the `coffee_ratings` data and confirm the change using the code provided below based on the following stackoverflow conversation.
+
+- https://stackoverflow.com/questions/27668266/dplyr-change-many-data-types
+
+```{r, eval=FALSE, echo=FALSE, include=TRUE, message=FALSE}
+coffee_ratings <- coffee_ratings %>% mutate(across(where(is.character), as.factor))
+coffee_ratings %>% glimpse()
+```
+
+
+## Topic 4: A little more about ***factors*** and ***boolean vector masks***
+
+### (a) Create the variable `coffee_ratings_nlevels` which lists the number of factor levels of each column using the provided code based on the following stackoverflow conversation and `nlevels` documentation.
+
+- https://stackoverflow.com/questions/27676404/list-all-factor-levels-of-a-data-frame
+- https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/nlevels
+
+```{r, eval=FALSE, echo=FALSE, include=TRUE, message=FALSE}
+coffee_ratings_nlevels <- sapply(coffee_ratings, nlevels)
+coffee_ratings_nlevels
+```
+
+(b) Create a boolean mask vector from the `coffee_ratings_nlevels` variable above which is `TRUE` for each column with two or more but less than ten factor levels and `FALSE` otherwise using the provided code below.
+
+```{r, eval=FALSE, echo=FALSE, include=TRUE, message=FALSE}
+coffee_ratings_nlevels_boolean_mask <- (coffee_ratings_nlevels > 1) & (coffee_ratings_nlevels < 10)
+```
+
+(c) List the factor levels of each column with two or more factor levels using a vector boolean mask code provided below.
+
+```{r, eval=FALSE, echo=FALSE, include=TRUE, message=FALSE}
+sapply(coffee_ratings, levels)[coffee_ratings_nlevels_boolean_mask]
+```
+
+
