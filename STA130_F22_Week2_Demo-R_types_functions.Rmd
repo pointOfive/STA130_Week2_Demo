@@ -17,14 +17,14 @@ The purpose of this demo is to introduce R data types and functions:
 3. [ ] ***Data types*** (`1`,`1.1`, `TRUE`, `"1"`) and `class()` and `typeof()` functions
 <!-- https://stackoverflow.com/questions/62413619/what-is-the-difference-between-typeof-and-class-functions-and-when-are-they -->
 4. [ ] ***Coercion*** and `as.numeric()`, `as.logical()`, `character()` functions
-5. [ ] ***Ordinal*** with `as.integer()` versus ***nominal*** with `as.factor()`
+5. [ ] ***Nominal*** with `as.factor()` and ***ordinal*** with `as.numeric()` (and not `as.integer()`)
 6. [ ] ***Tibbles*** `read_csv()` versus ***Data Frames*** `read.csv()`
-7. [ ] **Columns** are **variables**  (but not "R variables"!): specific things to be observed and recorded 
+7. [ ] **Columns** are **variables**  (but not R object "variables"!): specific things to be observed and recorded 
 8. [ ] **Rows** are **observational units** (on which variables are observed and recorded)
 9. [ ] A **Row** is the **observation** 
        
        - The value of a specific variable for a specific row is one piece of the  
-         collection of information on an entire row which comprise an **observation** 
+         collection of information -- of of the measurements -- on an entire row comprising the **observation**
        
 10. [ ] Beyond `glimpse()` and `head()` with `names()`, `[]`, `[[]]`, and `$` "functions"
 11. [ ] The `mean`, `median`, [`mode`](https://stackoverflow.com/questions/2547402/how-to-find-the-statistical-mode), `range`, `IQR`, `var`, and `sd` functions (and `%>%`)
